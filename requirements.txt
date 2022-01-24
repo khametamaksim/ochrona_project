@@ -1,0 +1,7 @@
+flask
+pandas
+asyncio
+scipy
+Werkzeug
+Flask-SQLAlchemy
+flask-login

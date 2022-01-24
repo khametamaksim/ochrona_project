@@ -1,0 +1,19 @@
+Ostylowanie:
+    Dodanie pogrubienia wybranego słowa
+    Dodanie pochylenia wybranego słowa
+    Dodanie nagłówku o wybranym poziomie (1-5).
+
++ Walidację danych wejściowych (z negatywnym nastawieniem)
++ Limity prób (żeby utrudnić zdalne zgadywanie i atak brute-force)
++ Opoznienia przy logowaniu
++ Ograniczone informowanie o błędach (np. o tym przyczynie odmowy uwierzytelenia),
++ Bezpieczne przechowywanie hasła (wykorzystanie kryptograficznych funcji mieszających, wykorzystanie soli, wielokrotne hashowanie)
++ Kontrola siły hasła, żeby uświadomić użytkownikowi problem
++ monitorowanie pracy systemu (np. żeby poinformować użytkownika o nowych komputerach, które łączyły się z jego kontem)
++ Zarządzanie uprawnieniami do zasobów.
+
++ Aplikacja posiada bazę danych (SQL, może być SQLite)
++ Bezpieczne połączenie z aplikacją (szyfrowane połączenie)
++ Zabiezpieczenie przed lomaniem (sprawdzenie tekstu)
+
+Skonteneryzowanie przy pomocą Docker
