@@ -5,3 +5,6 @@ scipy
 Werkzeug
 Flask-SQLAlchemy
 flask-login
+pyngrok
+Flask-SimpleMDE
+Flask-Markdown

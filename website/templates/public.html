@@ -1,10 +1,9 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}<br>
 <h1 align="left">Public Notes</h1>
 <ul class="list-group list-group-flush" id="notes">
   {% for note in notes %}
   <li class="list-group-item">
-    {{ note }}
+    {{ note | markdown }}
   </li>
   {% endfor %}
 </ul>

@@ -1,7 +1,14 @@
-Ostylowanie:
++ Ostylowanie:
     Dodanie pogrubienia wybranego słowa
     Dodanie pochylenia wybranego słowa
     Dodanie nagłówku o wybranym poziomie (1-5).
+
++ sha256:n
++ db security
++ cookies
++ debugmod
++ login required
++ ip
 
 + Walidację danych wejściowych (z negatywnym nastawieniem)
 + Limity prób (żeby utrudnić zdalne zgadywanie i atak brute-force)
@@ -16,4 +23,4 @@ Ostylowanie:
 + Bezpieczne połączenie z aplikacją (szyfrowane połączenie)
 + Zabiezpieczenie przed lomaniem (sprawdzenie tekstu)
 
-Skonteneryzowanie przy pomocą Docker
+Skonteneryzowanie przy pomocy Docker

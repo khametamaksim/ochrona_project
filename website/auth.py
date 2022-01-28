@@ -1,6 +1,5 @@
 import pandas as pd
 import asyncio
-import socket
 from datetime import datetime
 from scipy.stats import entropy
 from flask import Blueprint, render_template, request, flash, redirect, url_for, abort
@@ -10,7 +9,7 @@ from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
-ips = {'127.0.0.1': {'count': 0, 'time': datetime.now()}}
+ips = {'': {'count': 0, 'time': datetime.now()}}
 
 
 async def take_login(user, delay=1):
@@ -24,15 +23,14 @@ async def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        hostname = socket.gethostname()
-        ip = socket.gethostbyname(hostname)
+        ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
 
         if ip in ips:
             ips[ip] = {'count': ips[ip]['count'] + 1, 'time': datetime.now()}
         else:
             ips[ip] = {'count': 1, 'time': datetime.now()}
 
-        if (ips[ip]['time'] - datetime.now()).total_seconds() > 5:
+        if (ips[ip]['time'] - datetime.now()).total_seconds() > 30:
             ips[ip]['count'] = 1
 
         user = User.query.filter_by(email=email).first()
@@ -42,7 +40,7 @@ async def login():
                     flash('Logged in successfully. New device accessing your account found: ' + str(user.new_ip),
                           category='success')
                 elif ip == user.ip and user.new_ip is None:
-                    user.new_ip = '169.254.83.106'
+                    user.new_ip = ip
                     db.session.commit()
                     flash('Logged in successfully!', category='success')
                 elif ip != user.ip:
@@ -78,8 +76,7 @@ async def sign_up():
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        hostname = socket.gethostname()
-        ip = str(socket.gethostbyname(hostname))
+        ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
 
         pd_series = pd.Series(list(password1))
         e = entropy(pd_series.value_counts())
@@ -109,7 +106,7 @@ async def sign_up():
             flash('Password should have at least one number: 1234567890', category='error')
         else:
             new_user = User(email=email, first_name=first_name, ip=ip, password=generate_password_hash(
-                password1, method='sha256'))
+                password1, method='pbkdf2:sha256:100', salt_length=16))
             db.session.add(new_user)
             db.session.commit()
             await take_login(new_user)

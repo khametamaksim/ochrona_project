@@ -1,24 +1,26 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}<br>
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}<br>
 <h1 align="left">My Notes ({{ user.email }})</h1>
 <ul class="list-group list-group-flush" id="notes">
   {% for note in user.notes %}
   <li class="list-group-item">
-    {{ note.data }}
+    {{ note.data | markdown }}
     <button type="button" class="close" onClick="deleteNote({{ note.id }})">
       <span aria-hidden="true">&times;</span>
     </button>
-      <br><br>
+      <br>
     <button type="button" class="btn btn-light" onClick="makePublic({{ note.id }})">Make public</button>
     <button type="button" class="btn btn-light" onClick="makePrivate({{ note.id }})">Make private</button>
   </li>
   {% endfor %}
 </ul>
+<br/>
 <form method="POST">
   <textarea name="note" id="note" class="form-control"></textarea>
-  <br />
+  <div align="center">{{ simplemde.load }}</div>
+  <br/>
   <div align="center">
     <button type="submit" class="btn btn-primary">Add Note</button>
   </div>
+  <br/>
 </form>
 {% endblock %}

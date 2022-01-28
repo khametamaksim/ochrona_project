@@ -26,18 +26,16 @@ def home():
 
 @views.route('/public', methods=['GET', 'POST'])
 def public():
-
     notes = []
-    users = User.query.all()
-    for user in users:
-        for note in user.notes:
-            if note.public:
-                notes.append(note.data)
+    for note in Note.query.all():
+        if note.public:
+            notes.append(note.data)
 
     return render_template("public.html", notes=notes, user=current_user)
 
 
 @views.route('/delete-note', methods=['POST'])
+@login_required
 def delete_note():
     note = json.loads(request.data)
     noteId = note['noteId']
@@ -51,6 +49,7 @@ def delete_note():
 
 
 @views.route('/make-public', methods=['POST'])
+@login_required
 def make_public():
     note = json.loads(request.data)
     noteId = note['noteId']
@@ -64,6 +63,7 @@ def make_public():
 
 
 @views.route('/make-private', methods=['POST'])
+@login_required
 def make_private():
     note = json.loads(request.data)
     noteId = note['noteId']
